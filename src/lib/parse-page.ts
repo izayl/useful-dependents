@@ -1,10 +1,12 @@
-import fetch from 'wretch'
-import AbortAddon from 'wretch/addons/abort'
-import { extractNumbers, wait } from './utils'
+import { extractNumbers } from './utils'
 import cheerio from 'cheerio'
-import { Dependent } from './getDependents'
 
-const RATE_LIMIT_WAIT = 61000 // ms
+export type Dependent = {
+  avatarUrl: string
+  repo: string
+  stars: number
+  forks: number
+}
 
 export type ParseResult = {
   dependents: Dependent[]
