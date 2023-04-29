@@ -1,36 +1,35 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Useful Dependents
 
-## Getting Started
+search useful dependents for GitHub project.
 
-First, run the development server:
+## Try it out ⚡️
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
+[https://useful-dependents.vercel.app/](https://useful-dependents.vercel.app/)
+
+## ✨ Inspiration
+
+this project is inspired by [useful-forks](https://github.com/useful-forks/useful-forks.github.io).
+
+## 🚀 Development
+
+```sh
+# install dependencies
+pnpm install
+
+# or use [ni](https://github.com/antfu/ni)
+ni
+
+# serve with hot reload at localhost:3000
 pnpm dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Tech Stack
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Next 13](https://beta.nextjs.org/docs)
+- [shadcn/ui](https://github.com/shadcn/ui)
+- [tailwindcss](https://tailwindcss.com/)
+- [swr](https://swr.vercel.app/)
+- [wretch](https://github.com/elbywan/wretch)
 
-[http://localhost:3000/api/hello](http://localhost:3000/api/hello) is an endpoint that uses [Route Handlers](https://beta.nextjs.org/docs/routing/route-handlers). This endpoint can be edited in `app/api/hello/route.ts`.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+---
+[MIT License](./LICENSE) © 2023 [izayl](https://github.com/izayl)
