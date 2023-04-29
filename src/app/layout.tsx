@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { SiteHeader } from '@/components/site-header'
 import { SiteFooter } from '@/components/site-footer'
 import { cn } from '@/lib/utils'
+import { Analytics } from '@/components/analytics'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased',
@@ -25,10 +26,11 @@ export default function RootLayout({
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <div className="flex-1">{children}</div>
-            <Toaster />
             <SiteFooter />
           </div>
         </ThemeProvider>
+        <Toaster />
+        <Analytics />
       </body>
     </html>
   )
