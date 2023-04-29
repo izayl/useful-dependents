@@ -3,8 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import { Icons } from './icons'
-import { FormEvent, useRef } from 'react'
+import { useRef } from 'react'
 import { checkRepoExist } from '@/lib/utils'
 import { useToast } from './ui/use-toast'
 
@@ -16,8 +15,7 @@ export const SearchInput = () => {
   const input = useRef<HTMLInputElement>(null)
   const { toast } = useToast()
 
-  const onSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async () => {
     const value = input.current?.value
     if (!value) return
     const repoError = await checkRepoExist(value.trim()).catch(err => err)
@@ -53,15 +51,11 @@ export const SearchInput = () => {
           ref={input}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              onSubmit(e)
+              onSubmit()
             }
           }}
         />
-        <Button
-          type="submit"
-          onSubmit={onSubmit}
-          className="rounded-l-none border-l-0 p-6"
-        >
+        <Button onClick={onSubmit} className="rounded-l-none border-l-0 p-6">
           Find
         </Button>
       </div>
