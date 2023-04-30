@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "changeset:version": "changeset status & changeset version",
+    "changeset:release": "changeset tag"
   },
   "shadcn-ui": {
     "location": ""
@@ -41,6 +43,7 @@
     "wretch": "^2.5.2"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.26.1",
     "@types/lodash.orderby": "^4.6.7"
   }
 }
