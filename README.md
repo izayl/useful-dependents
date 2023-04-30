@@ -2,6 +2,10 @@
 
 search useful dependents for GitHub project.
 
+Every time I look at a new open source project to learn, in addition to reading the documentation, I also want to see how other projects that use this project for development are being used. However, GitHub's dependents always has to flip through many pages to find a suitable project. So I wrote a tool to help me find the corresponding dependents projects. May it help you too. 
+
+Even tiny pull requests are greatly appreciated ❤️.
+
 ## Try it out ⚡️
 
 [https://useful-dependents.vercel.app/](https://useful-dependents.vercel.app/)
