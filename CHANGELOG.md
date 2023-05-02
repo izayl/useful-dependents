@@ -1,5 +1,11 @@
 # useful-dependents
 
+## 0.1.3
+
+### Patch Changes
+
+- 343df8d: adjust mobile cover position
+
 ## 0.1.2
 
 ### Patch Changes
