@@ -12,7 +12,7 @@ export const Intro: React.FC = () => {
       <CardContent>
         <div className="relative h-64 mb-6">
           <Image
-            className="object-cover object-top rounded-md"
+            className="object-cover object-[-15px_top] md:object-top rounded-md"
             priority
             src="/images/intro.png"
             alt="intro"
