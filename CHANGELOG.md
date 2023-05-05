@@ -1,5 +1,11 @@
 # useful-dependents
 
+## 0.1.4
+
+### Patch Changes
+
+- 4bcbcb2: reduce vercel image opt cost
+
 ## 0.1.3
 
 ### Patch Changes
