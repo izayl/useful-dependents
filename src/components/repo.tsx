@@ -18,6 +18,7 @@ export const Repo: React.FC<{
           alt={name}
           width={24}
           height={24}
+          unoptimized
           className="h-6 w-6 rounded-full mr-2 border"
         />
         <span>
