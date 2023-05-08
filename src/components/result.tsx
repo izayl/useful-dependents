@@ -10,12 +10,14 @@ import { useDependents } from '@/hooks/useDependents'
 import { useSearchParams } from 'next/navigation'
 import { Button } from './ui/button'
 import { Icons } from './icons'
+import { PackageSelect } from './package-select'
 
 export const Result: React.FC = () => {
   const searchParams = useSearchParams()
   const repo = searchParams.get('repo')
+  const packageId = searchParams.get('package_id')
   const [loadPage, setLoadPage] = useState(5)
-  const { data, setSize, size, isLoading } = useDependents(repo as string)
+  const { data, setSize, packages, size, isLoading } = useDependents(repo as string, packageId as string)
   const [ignoreZeroStar, setIgnoreZeroStar] = useState(true)
   const sortedData = useMemo(() => {
     const filteredData = ignoreZeroStar ? data.filter(d => d.stars > 0) : data
@@ -38,6 +40,7 @@ export const Result: React.FC = () => {
 
   return (
     <>
+      {packages.length ? <PackageSelect options={packages} /> : null}
       <div>
         <div className="p-4 border rounded-t-md bg-[#f6f8fa] dark:bg-[#161b22] flex justify-between">
           <h2 className="font-semibold">
