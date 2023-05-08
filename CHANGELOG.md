@@ -1,5 +1,13 @@
 # useful-dependents
 
+## 0.1.5
+
+### Patch Changes
+
+- f411223: feat: add package selector
+- 19f0fc8: feat: add empty result
+- 1f62c00: fix: add reach end status to show correctly end status
+
 ## 0.1.4
 
 ### Patch Changes
