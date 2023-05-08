@@ -17,7 +17,7 @@ export const Result: React.FC = () => {
   const repo = searchParams.get('repo')
   const packageId = searchParams.get('package_id')
   const [loadPage, setLoadPage] = useState(5)
-  const { data, setSize, packages, size, isLoading } = useDependents(repo as string, packageId as string)
+  const { data, setSize, packages, size, isLoading, isFinished } = useDependents(repo as string, packageId as string)
   const [ignoreZeroStar, setIgnoreZeroStar] = useState(true)
   const sortedData = useMemo(() => {
     const filteredData = ignoreZeroStar ? data.filter(d => d.stars > 0) : data
@@ -25,8 +25,9 @@ export const Result: React.FC = () => {
   }, [data, ignoreZeroStar])
   const isFetching = useMemo(() => {
     const last = 30 * (loadPage - 1)
+    if (isFinished) return false
     return size > 0 && data && typeof data[last] === 'undefined'
-  }, [size, data, loadPage])
+  }, [size, data, loadPage, isFinished])
 
   useEffect(() => {
     if (repo && !isLoading) {
@@ -83,7 +84,8 @@ export const Result: React.FC = () => {
         <div className="rounded-b-md border text-center p-2">
           {isFetching ? (
             <Icons.loading className="animate-spin h-4 w-4 my-2 mx-auto " />
-          ) : (
+          ) : null}
+          {!isFetching && !isFinished ? (
             <Button
               className=" font-semibold"
               variant="link"
@@ -91,7 +93,7 @@ export const Result: React.FC = () => {
             >
               Load More
             </Button>
-          )}
+          ) : null}
         </div>
       </div>
     </>
