@@ -45,6 +45,7 @@ export const useDependents = (repo: string, packageId?: string) => {
   return {
     ...response,
     isFinished: response.data?.some(d => !d?.nextURL),
+    emptyText: response.data?.[0]?.empty,
     data: data.filter(Boolean),
     packages: response.data ? response.data[0]?.packages : [],
   }

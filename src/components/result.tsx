@@ -12,12 +12,24 @@ import { Button } from './ui/button'
 import { Icons } from './icons'
 import { PackageSelect } from './package-select'
 
+const EmptySlate: React.FC<React.PropsWithChildren> = ({ children }) => {
+  return (
+    <div className="py-[80px] border-b text-center">
+      <div className="text-xl font-semibold">{children}</div>
+      <p className="text-slate-400">
+        Please try again later.
+      </p>
+    </div>
+  )
+}
+
 export const Result: React.FC = () => {
   const searchParams = useSearchParams()
   const repo = searchParams.get('repo')
   const packageId = searchParams.get('package_id')
   const [loadPage, setLoadPage] = useState(5)
-  const { data, setSize, packages, size, isLoading, isFinished } = useDependents(repo as string, packageId as string)
+  const { data, setSize, packages, size, isLoading, isFinished, emptyText } =
+    useDependents(repo as string, packageId as string)
   const [ignoreZeroStar, setIgnoreZeroStar] = useState(true)
   const sortedData = useMemo(() => {
     const filteredData = ignoreZeroStar ? data.filter(d => d.stars > 0) : data
@@ -80,21 +92,23 @@ export const Result: React.FC = () => {
               avatarUrl={result.avatarUrl}
             />
           ))}
+          {emptyText ? <EmptySlate>{emptyText}</EmptySlate> : null}
         </div>
-        <div className="rounded-b-md border text-center p-2">
-          {isFetching ? (
-            <Icons.loading className="animate-spin h-4 w-4 my-2 mx-auto " />
-          ) : null}
-          {!isFetching && !isFinished ? (
-            <Button
-              className=" font-semibold"
-              variant="link"
-              onClick={() => setLoadPage(p => p + 5)}
-            >
-              Load More
-            </Button>
-          ) : null}
-        </div>
+        {!isFinished ? (
+          <div className="rounded-b-md border text-center p-2">
+            {isFetching ? (
+              <Icons.loading className="animate-spin h-4 w-4 my-2 mx-auto " />
+            ) : (
+              <Button
+                className=" font-semibold"
+                variant="link"
+                onClick={() => setLoadPage(p => p + 5)}
+              >
+                Load More
+              </Button>
+            )}
+          </div>
+        ) : null}
       </div>
     </>
   )

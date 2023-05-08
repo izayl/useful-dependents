@@ -18,6 +18,7 @@ export type ParseResult = {
   dependents: Dependent[]
   nextURL: string | null
   packages: Package[]
+  empty: string
 }
 
 function parsePackages($: CheerioAPI): Package[] {
@@ -39,39 +40,47 @@ export async function parsePage(res?: string): Promise<ParseResult> {
   const $ = cheerio.load(res)
   const packages = parsePackages($)
   const dependents: Dependent[] = []
+  let empty = ''
+  let nextURL = null
 
-  $('#dependents > div.Box > div').each((i, e) => {
-    // The first element is the header row
-    if (i === 0) return
+  if ($('#dependents > .blankslate')) {
+    empty = $('#dependents .blankslate-heading').text().trim()
+  }
 
-    const avatarUrl = $(e).find('.avatar').attr('src') ?? ''
+  if (!empty) {
+    $('#dependents > div.Box > div').each((i, e) => {
+      // The first element is the header row
+      if (i === 0) return
 
-    const repo =
-      `${$(e).find('span > a:nth-child(1)').text().trim()}/${$(e).find('span > a:nth-child(2)').text().trim()}`
+      const avatarUrl = $(e).find('.avatar').attr('src') ?? ''
 
-    const stars = extractNumbers(
-      $(e).find('div > span:nth-child(1)').last().text().trim()
-    )
-    const forks = extractNumbers(
-      $(e).find('div > span:nth-child(2)').last().text().trim()
-    )
+      const repo =
+        `${$(e).find('span > a:nth-child(1)').text().trim()}/${$(e).find('span > a:nth-child(2)').text().trim()}`
 
-    dependents.push({
-      avatarUrl,
-      repo,
-      stars,
-      forks,
+      const stars = extractNumbers(
+        $(e).find('div > span:nth-child(1)').last().text().trim()
+      )
+      const forks = extractNumbers(
+        $(e).find('div > span:nth-child(2)').last().text().trim()
+      )
+
+      dependents.push({
+        avatarUrl,
+        repo,
+        stars,
+        forks,
+      })
     })
-  })
 
-  const nextURL =
-    $('#dependents > div.paginate-container > div > a:contains("Next")')?.prop(
-      'href'
-    ) || null
-
+    nextURL =
+      $('#dependents > div.paginate-container > div > a:contains("Next")')?.prop(
+        'href'
+      ) || null
+  }
   return {
     dependents,
     nextURL,
     packages,
+    empty,
   }
 }
