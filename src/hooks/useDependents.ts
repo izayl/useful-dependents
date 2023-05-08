@@ -2,21 +2,30 @@ import fetch from 'wretch'
 import { ParseResult } from '@/lib/parse-page'
 import useSWRInfinite from 'swr/infinite'
 
-const getKey = (prevPageData: ParseResult | null, repo: string) => {
+const getKey = (prevPageData: ParseResult | null, params: {
+  repo: string
+  packageId?: string
+}) => {
+  const { repo, packageId } = params
   if (!prevPageData?.nextURL && !repo) return null
 
+  // support both repo/name and github full link
   const baseURL = repo.startsWith('https://github.com')
     ? `${repo}/network/dependents`
     : `https://github.com/${repo}/network/dependents`
-  const nextURL = prevPageData?.nextURL ?? baseURL
+  let nextURL = prevPageData?.nextURL ?? baseURL
+  
+  if (packageId) {
+    nextURL = `${nextURL}?package_id=${packageId}`
+  }
 
   return nextURL
 }
 
-export const useDependents = (repo: string) => {
+export const useDependents = (repo: string, packageId?: string) => {
   const response = useSWRInfinite<ParseResult>(
     (pageIndex, prevPageData) => {
-      const nextURL = getKey(prevPageData, repo)
+      const nextURL = getKey(prevPageData, {repo, packageId})
       return nextURL
     },
     (url: string) =>
@@ -36,5 +45,6 @@ export const useDependents = (repo: string) => {
   return {
     ...response,
     data: data.filter(Boolean),
+    packages: response.data ? response.data[0]?.packages : [],
   }
 }

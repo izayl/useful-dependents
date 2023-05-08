@@ -1,5 +1,5 @@
 import { extractNumbers } from './utils'
-import cheerio from 'cheerio'
+import cheerio, { CheerioAPI } from 'cheerio'
 
 export type Dependent = {
   avatarUrl: string
@@ -8,9 +8,28 @@ export type Dependent = {
   forks: number
 }
 
+export type Package = {
+  name: string
+  url: string
+  id: string
+}
+
 export type ParseResult = {
   dependents: Dependent[]
   nextURL: string | null
+  packages: Package[]
+}
+
+function parsePackages($: CheerioAPI): Package[] {
+  const packages: Package[] = []
+  $('#dependents > .select-menu').find('a.select-menu-item').each((i, e) => {
+    const name = $(e).find('span').text().trim()
+    const url = $(e).attr('href') ?? ''
+    if (!name || !url) return
+    const id = url.split('package_id=').pop() ?? ''
+    packages.push({ name, url: `https://github.com/${url}`, id })
+  })
+  return packages
 }
 
 export async function parsePage(res?: string): Promise<ParseResult> {
@@ -18,7 +37,7 @@ export async function parsePage(res?: string): Promise<ParseResult> {
     throw Error('No response body')
   }
   const $ = cheerio.load(res)
-
+  const packages = parsePackages($)
   const dependents: Dependent[] = []
 
   $('#dependents > div.Box > div').each((i, e) => {
@@ -28,9 +47,7 @@ export async function parsePage(res?: string): Promise<ParseResult> {
     const avatarUrl = $(e).find('.avatar').attr('src') ?? ''
 
     const repo =
-      $(e).find('span > a:nth-child(1)').text().trim() +
-      '/' +
-      $(e).find('span > a:nth-child(2)').text().trim()
+      `${$(e).find('span > a:nth-child(1)').text().trim()}/${$(e).find('span > a:nth-child(2)').text().trim()}`
 
     const stars = extractNumbers(
       $(e).find('div > span:nth-child(1)').last().text().trim()
@@ -55,5 +72,6 @@ export async function parsePage(res?: string): Promise<ParseResult> {
   return {
     dependents,
     nextURL,
+    packages,
   }
 }
